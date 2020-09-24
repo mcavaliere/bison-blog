@@ -69,6 +69,42 @@ input NestedStringFilter {
   startsWith: String
 }
 
+input PostCreateManyWithoutAuthorInput {
+  connect: [PostWhereUniqueInput!]
+  create: [PostCreateWithoutAuthorInput!]
+}
+
+input PostCreateWithoutAuthorInput {
+  body: String!
+  createdAt: DateTime
+  id: String
+  title: String!
+  updatedAt: DateTime
+}
+
+input PostListRelationFilter {
+  every: PostWhereInput
+  none: PostWhereInput
+  some: PostWhereInput
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  author: UserWhereInput
+  authorId: StringFilter
+  body: StringFilter
+  createdAt: DateTimeFilter
+  id: StringFilter
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  title: StringFilter
+  updatedAt: DateTimeFilter
+}
+
+input PostWhereUniqueInput {
+  id: String
+}
+
 """A User Profile"""
 type Profile {
   createdAt: DateTime!
@@ -164,6 +200,7 @@ input UserCreateInput {
   email: String!
   id: String
   password: String!
+  Post: PostCreateManyWithoutAuthorInput
   profile: ProfileCreateOneWithoutUserInput
   roles: UserCreaterolesInput
   updatedAt: DateTime
@@ -190,6 +227,7 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   password: StringFilter
+  Post: PostListRelationFilter
   profile: ProfileWhereInput
   roles: [Role!]
   updatedAt: DateTimeFilter

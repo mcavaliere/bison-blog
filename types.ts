@@ -87,6 +87,42 @@ export type NestedStringFilter = {
   startsWith?: Maybe<Scalars['String']>;
 };
 
+export type PostCreateManyWithoutAuthorInput = {
+  connect?: Maybe<Array<PostWhereUniqueInput>>;
+  create?: Maybe<Array<PostCreateWithoutAuthorInput>>;
+};
+
+export type PostCreateWithoutAuthorInput = {
+  body: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type PostListRelationFilter = {
+  every?: Maybe<PostWhereInput>;
+  none?: Maybe<PostWhereInput>;
+  some?: Maybe<PostWhereInput>;
+};
+
+export type PostWhereInput = {
+  AND?: Maybe<Array<PostWhereInput>>;
+  author?: Maybe<UserWhereInput>;
+  authorId?: Maybe<StringFilter>;
+  body?: Maybe<StringFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
+  id?: Maybe<StringFilter>;
+  NOT?: Maybe<Array<PostWhereInput>>;
+  OR?: Maybe<Array<PostWhereInput>>;
+  title?: Maybe<StringFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
+};
+
+export type PostWhereUniqueInput = {
+  id?: Maybe<Scalars['String']>;
+};
+
 /** A User Profile */
 export type Profile = {
   __typename?: 'Profile';
@@ -197,6 +233,7 @@ export type UserCreateInput = {
   email: Scalars['String'];
   id?: Maybe<Scalars['String']>;
   password: Scalars['String'];
+  Post?: Maybe<PostCreateManyWithoutAuthorInput>;
   profile?: Maybe<ProfileCreateOneWithoutUserInput>;
   roles?: Maybe<UserCreaterolesInput>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -223,6 +260,7 @@ export type UserWhereInput = {
   NOT?: Maybe<Array<UserWhereInput>>;
   OR?: Maybe<Array<UserWhereInput>>;
   password?: Maybe<StringFilter>;
+  Post?: Maybe<PostListRelationFilter>;
   profile?: Maybe<ProfileWhereInput>;
   roles?: Maybe<Array<Role>>;
   updatedAt?: Maybe<DateTimeFilter>;
