@@ -9,7 +9,7 @@ function PostsShowPage() {
         <title>PostsShowPage</title>
       </Head>
 
-      <Flex direction={{ base: 'column', lg: 'row'}}>
+      <Flex direction={{ base: 'column', lg: 'row' }}>
         <Center>
           <Heading size="lg">I am posts/show page</Heading>
         </Center>

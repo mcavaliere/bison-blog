@@ -10,4 +10,4 @@ export function PostList() {
       <Heading>{message}</Heading>
     </Center>
   );
-};
+}
