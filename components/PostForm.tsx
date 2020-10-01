@@ -16,7 +16,7 @@ export function PostForm() {
       </FormControl>
 
       <FormControl isInvalid={errors.body}>
-        <FormLabel htmlFor="boty">Post Body</FormLabel>
+        <FormLabel htmlFor="body">Post Body</FormLabel>
         <Textarea name="body" id="body" ref={register({ required: true })} />
         <FormErrorMessage>{errors.body && <span>This field is required</span>}</FormErrorMessage>
       </FormControl>
