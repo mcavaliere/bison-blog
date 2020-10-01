@@ -18,6 +18,10 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
 """
 scalar DateTime
 
+input DateTimeFieldUpdateOperationsInput {
+  set: DateTime
+}
+
 input DateTimeFilter {
   equals: DateTime
   gt: DateTime
@@ -35,13 +39,16 @@ The `JSON` scalar type represents JSON objects as specified by [ECMA-404](http:/
 scalar Json
 
 type Mutation {
+  createOnePost(data: PostCreateInput!): Post!
   createUser(data: UserCreateInput!): User!
+  deleteOnePost(where: PostWhereUniqueInput!): Post
 
   """Login to an existing account"""
   login(email: String!, password: String!): AuthPayload
 
   """Signup for an account"""
   signup(data: SignupInput!): AuthPayload
+  updateOnePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
 }
 
 input NestedDateTimeFilter {
@@ -69,6 +76,24 @@ input NestedStringFilter {
   startsWith: String
 }
 
+"""A single blog post"""
+type Post {
+  body: String!
+  createdAt: DateTime!
+  id: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+input PostCreateInput {
+  author: UserCreateOneWithoutPostInput!
+  body: String!
+  createdAt: DateTime
+  id: String
+  title: String!
+  updatedAt: DateTime
+}
+
 input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
   create: [PostCreateWithoutAuthorInput!]
@@ -86,6 +111,15 @@ input PostListRelationFilter {
   every: PostWhereInput
   none: PostWhereInput
   some: PostWhereInput
+}
+
+input PostUpdateInput {
+  author: UserUpdateOneRequiredWithoutPostInput
+  body: StringFieldUpdateOperationsInput
+  createdAt: DateTimeFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
 }
 
 input PostWhereInput {
@@ -131,6 +165,28 @@ input ProfileCreateWithoutUserInput {
   updatedAt: DateTime
 }
 
+input ProfileUpdateOneWithoutUserInput {
+  connect: ProfileWhereUniqueInput
+  create: ProfileCreateWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  update: ProfileUpdateWithoutUserDataInput
+  upsert: ProfileUpsertWithoutUserInput
+}
+
+input ProfileUpdateWithoutUserDataInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  firstName: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  lastName: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input ProfileUpsertWithoutUserInput {
+  create: ProfileCreateWithoutUserInput!
+  update: ProfileUpdateWithoutUserDataInput!
+}
+
 input ProfileWhereInput {
   AND: [ProfileWhereInput!]
   createdAt: DateTimeFilter
@@ -151,6 +207,8 @@ input ProfileWhereUniqueInput {
 type Query {
   """Returns the currently logged in user"""
   me: User
+  post(where: PostWhereUniqueInput!): Post
+  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int): [Post!]!
   user(where: UserWhereUniqueInput!): User
   users(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int, orderBy: [UserOrderByInput!], where: UserWhereInput): [User!]!
 }
@@ -169,6 +227,10 @@ input SignupInput {
 enum SortOrder {
   asc
   desc
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
 }
 
 input StringFilter {
@@ -206,8 +268,23 @@ input UserCreateInput {
   updatedAt: DateTime
 }
 
+input UserCreateOneWithoutPostInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutPostInput
+}
+
 input UserCreaterolesInput {
   set: [Role!]
+}
+
+input UserCreateWithoutPostInput {
+  createdAt: DateTime
+  email: String!
+  id: String
+  password: String!
+  profile: ProfileCreateOneWithoutUserInput
+  roles: UserCreaterolesInput
+  updatedAt: DateTime
 }
 
 input UserOrderByInput {
@@ -217,6 +294,32 @@ input UserOrderByInput {
   password: SortOrder
   roles: SortOrder
   updatedAt: SortOrder
+}
+
+input UserUpdateOneRequiredWithoutPostInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateWithoutPostInput
+  update: UserUpdateWithoutPostDataInput
+  upsert: UserUpsertWithoutPostInput
+}
+
+input UserUpdaterolesInput {
+  set: [Role!]
+}
+
+input UserUpdateWithoutPostDataInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  email: StringFieldUpdateOperationsInput
+  id: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+  profile: ProfileUpdateOneWithoutUserInput
+  roles: UserUpdaterolesInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input UserUpsertWithoutPostInput {
+  create: UserCreateWithoutPostInput!
+  update: UserUpdateWithoutPostDataInput!
 }
 
 input UserWhereInput {
