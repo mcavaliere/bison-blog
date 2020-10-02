@@ -1,11 +1,44 @@
 import React from 'react';
 import { FormLabel, FormControl, FormErrorMessage, Input, Button, Textarea } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
+import { gql } from '@apollo/client';
+
+import { useAuth } from '../context/auth';
+import { useCreatePostMutation } from '../types';
+
+export const CREATE_POST_MUTATION = gql`
+  mutation CreatePost($data: PostCreateInput!) {
+    createOnePost(data: $data) {
+      id
+      title
+      body
+    }
+  }
+`;
 
 /** Description of component */
 export function PostForm() {
   const { register, handleSubmit, errors } = useForm();
-  const onSubmit = (data) => console.warn(data);
+  const [createPost] = useCreatePostMutation();
+
+  const { user: { id: userId } = {} } = useAuth();
+
+  const onSubmit = async (data) => {
+    const post = await createPost({
+      variables: {
+        data: {
+          ...data,
+          author: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      },
+    });
+
+    console.log(`---------------- created post `, post);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

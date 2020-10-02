@@ -29,6 +29,10 @@ export type AuthPayload = {
   user?: Maybe<User>;
 };
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Maybe<Scalars['DateTime']>;
+};
+
 export type DateTimeFilter = {
   equals?: Maybe<Scalars['DateTime']>;
   gt?: Maybe<Scalars['DateTime']>;
@@ -42,15 +46,26 @@ export type DateTimeFilter = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createOnePost: Post;
   createUser: User;
+  deleteOnePost?: Maybe<Post>;
   /** Login to an existing account */
   login?: Maybe<AuthPayload>;
   /** Signup for an account */
   signup?: Maybe<AuthPayload>;
+  updateOnePost?: Maybe<Post>;
+};
+
+export type MutationCreateOnePostArgs = {
+  data: PostCreateInput;
 };
 
 export type MutationCreateUserArgs = {
   data: UserCreateInput;
+};
+
+export type MutationDeleteOnePostArgs = {
+  where: PostWhereUniqueInput;
 };
 
 export type MutationLoginArgs = {
@@ -60,6 +75,11 @@ export type MutationLoginArgs = {
 
 export type MutationSignupArgs = {
   data: SignupInput;
+};
+
+export type MutationUpdateOnePostArgs = {
+  data: PostUpdateInput;
+  where: PostWhereUniqueInput;
 };
 
 export type NestedDateTimeFilter = {
@@ -87,6 +107,25 @@ export type NestedStringFilter = {
   startsWith?: Maybe<Scalars['String']>;
 };
 
+/** A single blog post */
+export type Post = {
+  __typename?: 'Post';
+  body: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type PostCreateInput = {
+  author: UserCreateOneWithoutPostInput;
+  body: Scalars['String'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
 export type PostCreateManyWithoutAuthorInput = {
   connect?: Maybe<Array<PostWhereUniqueInput>>;
   create?: Maybe<Array<PostCreateWithoutAuthorInput>>;
@@ -104,6 +143,15 @@ export type PostListRelationFilter = {
   every?: Maybe<PostWhereInput>;
   none?: Maybe<PostWhereInput>;
   some?: Maybe<PostWhereInput>;
+};
+
+export type PostUpdateInput = {
+  author?: Maybe<UserUpdateOneRequiredWithoutPostInput>;
+  body?: Maybe<StringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  title?: Maybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type PostWhereInput = {
@@ -149,6 +197,28 @@ export type ProfileCreateWithoutUserInput = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type ProfileUpdateOneWithoutUserInput = {
+  connect?: Maybe<ProfileWhereUniqueInput>;
+  create?: Maybe<ProfileCreateWithoutUserInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<ProfileUpdateWithoutUserDataInput>;
+  upsert?: Maybe<ProfileUpsertWithoutUserInput>;
+};
+
+export type ProfileUpdateWithoutUserDataInput = {
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  firstName?: Maybe<StringFieldUpdateOperationsInput>;
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  lastName?: Maybe<StringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ProfileUpsertWithoutUserInput = {
+  create: ProfileCreateWithoutUserInput;
+  update: ProfileUpdateWithoutUserDataInput;
+};
+
 export type ProfileWhereInput = {
   AND?: Maybe<Array<ProfileWhereInput>>;
   createdAt?: Maybe<DateTimeFilter>;
@@ -170,8 +240,21 @@ export type Query = {
   __typename?: 'Query';
   /** Returns the currently logged in user */
   me?: Maybe<User>;
+  post?: Maybe<Post>;
+  posts: Array<Post>;
   user?: Maybe<User>;
   users: Array<User>;
+};
+
+export type QueryPostArgs = {
+  where: PostWhereUniqueInput;
+};
+
+export type QueryPostsArgs = {
+  after?: Maybe<PostWhereUniqueInput>;
+  before?: Maybe<PostWhereUniqueInput>;
+  first?: Maybe<Scalars['Int']>;
+  last?: Maybe<Scalars['Int']>;
 };
 
 export type QueryUserArgs = {
@@ -202,6 +285,10 @@ export enum SortOrder {
   ASC = 'asc',
   DESC = 'desc',
 }
+
+export type StringFieldUpdateOperationsInput = {
+  set?: Maybe<Scalars['String']>;
+};
 
 export type StringFilter = {
   contains?: Maybe<Scalars['String']>;
@@ -239,8 +326,23 @@ export type UserCreateInput = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type UserCreateOneWithoutPostInput = {
+  connect?: Maybe<UserWhereUniqueInput>;
+  create?: Maybe<UserCreateWithoutPostInput>;
+};
+
 export type UserCreaterolesInput = {
   set?: Maybe<Array<Role>>;
+};
+
+export type UserCreateWithoutPostInput = {
+  createdAt?: Maybe<Scalars['DateTime']>;
+  email: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
+  password: Scalars['String'];
+  profile?: Maybe<ProfileCreateOneWithoutUserInput>;
+  roles?: Maybe<UserCreaterolesInput>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type UserOrderByInput = {
@@ -250,6 +352,32 @@ export type UserOrderByInput = {
   password?: Maybe<SortOrder>;
   roles?: Maybe<SortOrder>;
   updatedAt?: Maybe<SortOrder>;
+};
+
+export type UserUpdateOneRequiredWithoutPostInput = {
+  connect?: Maybe<UserWhereUniqueInput>;
+  create?: Maybe<UserCreateWithoutPostInput>;
+  update?: Maybe<UserUpdateWithoutPostDataInput>;
+  upsert?: Maybe<UserUpsertWithoutPostInput>;
+};
+
+export type UserUpdaterolesInput = {
+  set?: Maybe<Array<Role>>;
+};
+
+export type UserUpdateWithoutPostDataInput = {
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  email?: Maybe<StringFieldUpdateOperationsInput>;
+  id?: Maybe<StringFieldUpdateOperationsInput>;
+  password?: Maybe<StringFieldUpdateOperationsInput>;
+  profile?: Maybe<ProfileUpdateOneWithoutUserInput>;
+  roles?: Maybe<UserUpdaterolesInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type UserUpsertWithoutPostInput = {
+  create: UserCreateWithoutPostInput;
+  update: UserUpdateWithoutPostDataInput;
 };
 
 export type UserWhereInput = {
@@ -278,6 +406,14 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation' } & {
   login?: Maybe<{ __typename?: 'AuthPayload' } & Pick<AuthPayload, 'token'>>;
+};
+
+export type CreatePostMutationVariables = Exact<{
+  data: PostCreateInput;
+}>;
+
+export type CreatePostMutation = { __typename?: 'Mutation' } & {
+  createOnePost: { __typename?: 'Post' } & Pick<Post, 'id' | 'title' | 'body'>;
 };
 
 export type SignupMutationVariables = Exact<{
@@ -342,6 +478,55 @@ export type LoginMutationResult = ApolloReactCommon.MutationResult<LoginMutation
 export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<
   LoginMutation,
   LoginMutationVariables
+>;
+export const CreatePostDocument = gql`
+  mutation CreatePost($data: PostCreateInput!) {
+    createOnePost(data: $data) {
+      id
+      title
+      body
+    }
+  }
+`;
+export type CreatePostMutationFn = ApolloReactCommon.MutationFunction<
+  CreatePostMutation,
+  CreatePostMutationVariables
+>;
+
+/**
+ * __useCreatePostMutation__
+ *
+ * To run a mutation, you first call `useCreatePostMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePostMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreatePostMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CreatePostMutation,
+    CreatePostMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<CreatePostMutation, CreatePostMutationVariables>(
+    CreatePostDocument,
+    baseOptions
+  );
+}
+
+export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutation>;
+export type CreatePostMutationResult = ApolloReactCommon.MutationResult<CreatePostMutation>;
+export type CreatePostMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CreatePostMutation,
+  CreatePostMutationVariables
 >;
 export const SignupDocument = gql`
   mutation signup($data: SignupInput!) {
