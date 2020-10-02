@@ -12,7 +12,7 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex direction="column" margin={{ base: 5, md: 15 }}>
+      <Flex direction="column">
         <Heading size="lg">Recent posts</Heading>
         <PostList />
       </Flex>

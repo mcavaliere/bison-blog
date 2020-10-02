@@ -3,6 +3,7 @@ import { Box, Center, Flex, Text, Button } from '@chakra-ui/core';
 import NextLink from 'next/link';
 
 import { Logo } from '../components/Logo';
+import { PageContainer } from '../components/PageContainer';
 
 export function LoggedOutLayout({ children }) {
   return (
@@ -20,7 +21,7 @@ export function LoggedOutLayout({ children }) {
       </>
 
       <Box flex="1 1 auto" mt={8}>
-        {children}
+        <PageContainer>{children}</PageContainer>
       </Box>
 
       <Center as="footer" mt="auto" py={4}>

@@ -4,6 +4,7 @@ import { Box, Center, Flex, Text, Button } from '@chakra-ui/core';
 
 import { Logo } from '../components/Logo';
 import { Nav } from '../components/Nav';
+import { PageContainer } from '../components/PageContainer';
 import { useAuth } from '../context/auth';
 
 export function LoggedInLayout({ children }) {
@@ -36,7 +37,7 @@ export function LoggedInLayout({ children }) {
       </>
 
       <Box flex="1 1 auto" mt={8}>
-        {children}
+        <PageContainer>{children}</PageContainer>
       </Box>
 
       <Center as="footer" mt="auto" py={4}>

@@ -22,7 +22,7 @@ export const Success = ({ posts }: PostsQuery) => {
   return (
     <Stack>
       {posts.map((p) => (
-        <Box p={5} shadow="md">
+        <Box p={5} shadow="md" key={p.id}>
           <Heading>{p.title}</Heading>
           {p.body}
         </Box>
