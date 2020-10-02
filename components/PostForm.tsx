@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormLabel, FormControl, FormErrorMessage, Input, Button, Textarea } from '@chakra-ui/core';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
 
 import { useAuth } from '../context/auth';
@@ -20,11 +21,13 @@ export const CREATE_POST_MUTATION = gql`
 export function PostForm() {
   const { register, handleSubmit, errors } = useForm();
   const [createPost] = useCreatePostMutation();
+  const router = useRouter();
 
   const { user: { id: userId } = {} } = useAuth();
 
   const onSubmit = async (data) => {
-    const post = await createPost({
+    // Create the post
+    await createPost({
       variables: {
         data: {
           ...data,
@@ -37,7 +40,8 @@ export function PostForm() {
       },
     });
 
-    console.log(`---------------- created post `, post);
+    // Redirect to homepage
+    router.replace('/');
   };
 
   return (
