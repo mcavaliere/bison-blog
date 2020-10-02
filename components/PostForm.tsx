@@ -41,7 +41,7 @@ export function PostForm() {
     });
 
     // Redirect to homepage
-    router.replace('/');
+    await router.replace('/');
   };
 
   return (
