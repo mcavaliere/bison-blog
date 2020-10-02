@@ -6,7 +6,7 @@ export function Logo() {
   return (
     <NextLink href="/" passHref>
       <Heading as="a" size="md">
-        MyApp
+        BisonBlog
       </Heading>
     </NextLink>
   );

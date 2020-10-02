@@ -1,6 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import { Heading, Center } from '@chakra-ui/core';
+import { Heading, Flex } from '@chakra-ui/core';
+
+import { PostList } from '../components/PostList';
 
 function Home() {
   return (
@@ -10,9 +12,10 @@ function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Center>
-        <Heading size="lg">I am home page!</Heading>
-      </Center>
+      <Flex direction="column" margin={{ base: 5, md: 15 }}>
+        <Heading size="lg">Recent posts</Heading>
+        <PostList />
+      </Flex>
     </>
   );
 }
