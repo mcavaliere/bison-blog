@@ -399,6 +399,12 @@ export type UserWhereUniqueInput = {
   id?: Maybe<Scalars['String']>;
 };
 
+export type PostsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type PostsQuery = { __typename?: 'Query' } & {
+  posts: Array<{ __typename?: 'Post' } & Pick<Post, 'id' | 'title' | 'body'>>;
+};
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -434,6 +440,46 @@ export type MeQuery = { __typename?: 'Query' } & {
   me?: Maybe<{ __typename?: 'User' } & Pick<User, 'id' | 'email'>>;
 };
 
+export const PostsDocument = gql`
+  query posts {
+    posts {
+      id
+      title
+      body
+    }
+  }
+`;
+
+/**
+ * __usePostsQuery__
+ *
+ * To run a query within a React component, call `usePostsQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePostsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePostsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function usePostsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<PostsQuery, PostsQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+}
+
+export function usePostsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<PostsQuery, PostsQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<PostsQuery, PostsQueryVariables>(PostsDocument, baseOptions);
+}
+
+export type PostsQueryHookResult = ReturnType<typeof usePostsQuery>;
+export type PostsLazyQueryHookResult = ReturnType<typeof usePostsLazyQuery>;
+export type PostsQueryResult = ApolloReactCommon.QueryResult<PostsQuery, PostsQueryVariables>;
 export const LoginDocument = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
