@@ -10,6 +10,4 @@ For the full tutorial on how to use Bison to build this code from scratch, see *
   <a href="https://github.com/echobind/bisonapp">
   <img alt="Bison Logo" src="https://user-images.githubusercontent.com/14339/89243835-f47e7c80-d5d2-11ea-8d8d-36202227d0ec.png" />
   </a>
-  <h1>bison-blog</h1>
-  <p><img alt="CI STATUS" src="https://github.com/<OWNER>/<REPOSITORY>/workflows/main/badge.svg"/></p>
 </p>
